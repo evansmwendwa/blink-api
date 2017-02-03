@@ -31,6 +31,8 @@ class GalleryController extends Controller
             ];
         }
 
+        shuffle($files);
+
         return $this->get('app.serializer')->JsonResponse($files);
 
     }
