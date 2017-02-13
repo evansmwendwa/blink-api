@@ -30,3 +30,4 @@ imports:
     - { resource: user.yml }
     - { resource: video.yml }
     - { resource: rbma.yml }
+    - { resource: press.yml }
