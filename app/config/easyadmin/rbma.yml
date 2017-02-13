@@ -1,0 +1,29 @@
+easy_admin:
+    entities:
+        Article:
+            class: AppBundle\Entity\Rbma
+            label: 'RBMA Radio'
+            list:
+                title: 'Episodes'
+                fields:
+                    - id
+                    - title
+                    - releaseMonth
+                    - releaseYear
+                    - { property: 'imageName', type: 'image', base_path: %app.path.product_images% }
+                    - published
+                    - { property: 'updatedAt', format: 'j/n/Y' }
+                    - { property: 'createdAt', format: 'j/n/Y' }
+
+            form:
+                title: 'Episode'
+                fields:
+                    - { type: 'section', label: 'Episode Details' }
+                    - title
+                    - url
+                    - { property: 'tracks', label: 'Tracks Count' }
+                    - releaseMonth
+                    - releaseYear
+                    - { property: 'imageFile', label:'Featured Image', type: 'vich_image' }
+                    - published
+                    - { type: 'divider' }
