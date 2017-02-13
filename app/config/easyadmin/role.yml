@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        Article:
+        Role:
             class: AppBundle\Entity\Role
             label: 'User Roles'
             title: 'User Roles'

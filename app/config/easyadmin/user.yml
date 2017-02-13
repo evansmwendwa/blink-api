@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        Article:
+        User:
             class: AppBundle\Entity\User
             label: 'Users'
             list:

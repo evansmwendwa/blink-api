@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        Article:
+        Video:
             class: AppBundle\Entity\Video
             label: 'Videos'
             list:

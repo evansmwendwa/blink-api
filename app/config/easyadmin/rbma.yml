@@ -1,6 +1,6 @@
 easy_admin:
     entities:
-        Article:
+        Episode:
             class: AppBundle\Entity\Rbma
             label: 'RBMA Radio'
             list:
