@@ -16,6 +16,7 @@ use JMS\Serializer\Annotation\Expose;
  * @ORM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
  * @UniqueEntity(fields="email", message="This email is already associated with an existing account")
  * @ExclusionPolicy("all")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements AdvancedUserInterface, \Serializable
 {
@@ -28,7 +29,6 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 8,
      *      max = 50,
@@ -54,17 +54,16 @@ class User implements AdvancedUserInterface, \Serializable
     private $email;
 
     /**
-     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=60, nullable=true)
      * @Expose
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=60, nullable=true)
      * @Expose
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
@@ -76,10 +75,30 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $isPasswordExpired;
 
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
+     *
+     */
+    private $roles;
 
     public function __construct()
     {
         $this->isActive = true;
+        $this->roles = new ArrayCollection();
         // by default all social media account have expired passwords
         $this->isPasswordExpired = false;
     }
@@ -107,8 +126,8 @@ class User implements AdvancedUserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
-        //return $this->roles->toArray();
+        //return array('ROLE_USER');
+        return $this->roles->toArray();
     }
 
     /**
@@ -284,14 +303,37 @@ class User implements AdvancedUserInterface, \Serializable
     }
 
     /**
+     * Add roles
+     *
+     * @param \AppBundle\Entity\Role $roles
+     * @return User
+     */
+    public function addRole(\AppBundle\Entity\Role $roles)
+    {
+        $this->roles[] = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param \AppBundle\Entity\Role $roles
+     */
+    public function removeRole(\AppBundle\Entity\Role $roles)
+    {
+        $this->roles->removeElement($roles);
+    }
+
+    /**
      * Set firstname
      *
      * @param string $firstname
      * @return User
      */
-    public function setFirstname($firstname)
+    public function setFirstName($firstname)
     {
-        $this->firstname = $firstname;
+        $this->firstName = $firstname;
 
         return $this;
     }
@@ -301,9 +343,9 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return string
      */
-    public function getFirstname()
+    public function getFirstName()
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
@@ -312,9 +354,9 @@ class User implements AdvancedUserInterface, \Serializable
      * @param string $lastname
      * @return User
      */
-    public function setLastname($lastname)
+    public function setLastName($lastname)
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastname;
 
         return $this;
     }
@@ -324,8 +366,49 @@ class User implements AdvancedUserInterface, \Serializable
      *
      * @return string
      */
-    public function getLastname()
+    public function getLastName()
     {
-        return $this->lastname;
+        return $this->lastName;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAt()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function setUpdatedAt()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }
