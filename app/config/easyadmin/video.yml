@@ -16,7 +16,7 @@ easy_admin:
 
             form:
                 fields:
-                    - { type: 'section', label: 'Article Details' }
+                    - { type: 'section', label: 'Video Details' }
                     - title
                     - url
                     - releaseYear
