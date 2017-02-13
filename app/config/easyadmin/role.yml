@@ -1,0 +1,17 @@
+easy_admin:
+    entities:
+        Article:
+            class: AppBundle\Entity\Role
+            label: 'User Roles'
+            title: 'User Roles'
+            list:
+                title: 'User Roles'
+                fields:
+                    - id
+                    - name
+                    - role
+
+            form:
+                fields:
+                    - name
+                    - role

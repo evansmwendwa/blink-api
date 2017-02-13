@@ -1,0 +1,36 @@
+easy_admin:
+    entities:
+        Article:
+            class: AppBundle\Entity\User
+            label: 'Users'
+            list:
+                title: 'Users'
+                fields:
+                    - id
+                    - email
+                    - firstName
+                    - lastName
+                    - isActive
+                    - { property: 'updatedAt', format: 'j/n/Y' }
+                    - { property: 'createdAt', format: 'j/n/Y' }
+
+            form:
+                title: 'Add User'
+                fields:
+                    - { type: 'section', label: 'User Details' }
+                    - email
+                    - { property: 'plainPassword', type:'password'}
+                    - roles
+                    - firstName
+                    - lastName
+                    - isActive
+                    - { type: 'divider' }
+
+            new:
+                fields:
+                    - { property: 'plainPassword', label:'Password', type:'password', type_options: { required:true }}
+
+            edit:
+                title: 'Edit User'
+                fields:
+                    - { property: 'plainPassword', label:'Password', type:'password', type_options: { required:false }, help: 'Leave blank to skip updating user password'}

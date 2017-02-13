@@ -1,0 +1,23 @@
+easy_admin:
+    entities:
+        Article:
+            class: AppBundle\Entity\Article
+            label: 'Articles'
+            list:
+                title: 'Articles'
+                fields:
+                    - id
+                    - title
+                    - { property: 'imageName', type: 'image', base_path: %app.path.product_images% }
+                    - published
+                    - { property: 'updatedAt', format: 'j/n/Y' }
+                    - { property: 'createdAt', format: 'j/n/Y' }
+
+            form:
+                fields:
+                    - { type: 'section', label: 'Article Details' }
+                    - title
+                    - { property: 'imageFile', label:'Featured Image', type: 'vich_image' }
+                    - { property: 'content', type: 'ckeditor' }
+                    - published
+                    - { type: 'divider' }

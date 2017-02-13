@@ -1,0 +1,30 @@
+framework:
+    translator: { fallbacks: [ "en" ] }
+
+parameters:
+    app.path.product_images: /images/products
+
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        product_image:
+            uri_prefix:         /images/products
+            upload_destination: '%kernel.root_dir%/../web/images/products'
+
+easy_admin:
+    site_name: 'Blinky Bill Music'
+
+    design:
+        brand_color: '#1ABC9C'
+        form_theme: 'vertical'
+
+    formats:
+        date:     'd/m/Y'
+        time:     'H:i'
+        datetime: 'd/m/Y H:i:s'
+
+imports:
+    - { resource: article.yml }
+    - { resource: role.yml }
+    - { resource: user.yml }
