@@ -20,7 +20,8 @@ class VideoController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $videos = $em->getRepository('AppBundle:Video')->findBy(
-            array('published' => '1')
+            array('published' => '1'),
+            array('releaseYear' => 'DESC')
         );
 
         foreach($videos as $video) {
@@ -70,6 +71,7 @@ class VideoController extends Controller
 
         $related = [];
         $index = 0;
+        shuffle($videos);
 
         foreach($videos as $video) {
             if($index >= $limit) {

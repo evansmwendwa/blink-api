@@ -20,7 +20,8 @@ class RbmaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $episodes = $em->getRepository('AppBundle:Rbma')->findBy(
-            array('published' => '1')
+            array('published' => '1'),
+            array('id' => 'DESC')
         );
 
         foreach($episodes as $episode) {
