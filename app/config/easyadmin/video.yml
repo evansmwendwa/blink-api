@@ -1,0 +1,25 @@
+easy_admin:
+    entities:
+        Article:
+            class: AppBundle\Entity\Video
+            label: 'Videos'
+            list:
+                title: 'Videos'
+                fields:
+                    - id
+                    - title
+                    - releaseYear
+                    - { property: 'imageName', type: 'image', base_path: %app.path.product_images% }
+                    - published
+                    - { property: 'updatedAt', format: 'j/n/Y' }
+                    - { property: 'createdAt', format: 'j/n/Y' }
+
+            form:
+                fields:
+                    - { type: 'section', label: 'Article Details' }
+                    - title
+                    - url
+                    - releaseYear
+                    - { property: 'imageFile', label:'Featured Image', type: 'vich_image' }
+                    - published
+                    - { type: 'divider' }

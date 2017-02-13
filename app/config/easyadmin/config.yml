@@ -28,3 +28,4 @@ imports:
     - { resource: article.yml }
     - { resource: role.yml }
     - { resource: user.yml }
+    - { resource: video.yml }
