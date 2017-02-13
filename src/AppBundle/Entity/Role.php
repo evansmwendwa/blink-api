@@ -29,6 +29,11 @@ class Role implements RoleInterface
     private $role;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="roles")
+     */
+    private $users;
+
+    /**
      * @see RoleInterface
      */
     public function getRole()
