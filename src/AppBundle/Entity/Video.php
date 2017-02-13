@@ -36,7 +36,7 @@ class Video
     private $url;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="integer")
      * @Assert\NotBlank()
      */
     private $releaseYear;
