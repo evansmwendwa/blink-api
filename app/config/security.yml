@@ -2,10 +2,38 @@
 # http://symfony.com/doc/current/security.html
 security:
 
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, doctrine]
+
+        doctrine:
+            entity:
+                class: AppBundle:User
+
         in_memory:
-            memory: ~
+            memory:
+                 users:
+                    evans:
+                        password: $2a$12$CKQIDz993l/JYEfduFb4mOW.kxlLnkYuFWqFIYT39yjcMWw54Act2
+                        roles: 'ROLE_USER'
+                    admin:
+                        password: $2a$12$CKQIDz993l/JYEfduFb4mOW.kxlLnkYuFWqFIYT39yjcMWw54Act2
+                        roles: 'ROLE_ADMIN'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -14,6 +42,10 @@ security:
             security: false
 
         main:
+            logout:
+                path:   /logout
+                target: /login
+
             anonymous: ~
             # activate different ways to authenticate
 
@@ -22,3 +54,12 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            guard:
+                authenticators:
+                    - app.form_login_authenticator
+
+                entry_point: app.form_login_authenticator
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/admin, roles: ROLE_ADMIN }
