@@ -5,13 +5,13 @@ namespace AppBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FormLoginAuthenticator extends AbstractGuardAuthenticator
 {
@@ -48,24 +48,24 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-
-        // check if user password has expired
-        // (always the case for default social media accounts)
-
-        /////if($user->getIsPasswordExpired()){
-        //////    return false;
-        ////}
-        /**
+        /**     TODO - implement password expiration
+        * check if user password has expired
+        * (always the case for default social media accounts)
+        *
+        * if($user->getIsPasswordExpired()){
+        *   return false;
+        * }
         * If any value other than true is returned, authentication will
         * fail. You may also throw an AuthenticationException if you wish
         * to cause authentication to fail.
-        */
+        **/
+
         $plainPassword = $credentials['password'];
 
         $validPassword =  $this->encoder->isPasswordValid($user, $plainPassword);
 
         if(!$validPassword){
-            throw new BadCredentialsException();
+            throw new BadCredentialsException('The username or password you have entered is invalid.');
         }
 
         return $validPassword;
@@ -120,6 +120,18 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
 
     public function getLoginUrl() {
         return $this->router->generate('security_login');
+    }
+
+    /**
+    * Returns the last url that the user tried to access
+    * before login was triggered.
+    */
+    public function getTargetPath($session, $key) {
+        $key = '_security.'.$key.'.target_path';
+        if($session->has($key)) {
+            return $session->get($key);
+        }
+        return null;
     }
 
 }
