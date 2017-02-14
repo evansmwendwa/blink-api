@@ -44,4 +44,13 @@ class QueryManager
          $query = $this->buildQuery();
          return $this->paginatedResults($query, $page, $limit, $ordering, $direction);
     }
+
+    public function findItem($query) {
+        $query->setMaxResults(1);
+        $results = $query->getQuery()->getResult();
+        if(count($results)) {
+            return $results[0];
+        }
+        return null;
+    }
 }
