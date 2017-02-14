@@ -26,8 +26,8 @@ class ArticleController extends Controller
         $query->setParameter('published', true);
 
         // filter for publishedAt date
-        $query->andWhere('p.publishedAt >= :publishDate');
-        $query->setParameter('publishDate', new \DateTimeImmutable());
+        $query->andWhere('p.publishedAt <= :nowDate');
+        $query->setParameter('nowDate', new \DateTimeImmutable());
 
         $query->addOrderBy('p.publishedAt', 'DESC');
 
@@ -67,10 +67,16 @@ class ArticleController extends Controller
         $query->setParameter('id', $id);
 
         // filter for publishedAt date
-        $query->andWhere('p.publishedAt >= :publishDate');
-        $query->setParameter('publishDate', new \DateTimeImmutable());
+        $query->andWhere('p.publishedAt <= :nowdate');
+        $query->setParameter('nowdate', new \DateTimeImmutable());
 
         $article = $qm->findItem($query);
+
+        if (!$article) {
+            throw $this->createNotFoundException(
+                'No Article found for id '.$id
+            );
+        }
 
         $article->setImageName($url.$article->getImageName());
 
