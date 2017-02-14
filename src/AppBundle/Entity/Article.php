@@ -56,6 +56,13 @@ class Article
      *
      * @var \DateTime
      */
+    private $publishedAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
     private $createdAt;
 
     /**
@@ -71,6 +78,10 @@ class Article
      * @var bool
      */
     private $published;
+
+    public function __construct() {
+        $this->publishedAt =  new \DateTimeImmutable();
+    }
 
     /**
      * Get id
@@ -245,4 +256,27 @@ class Article
         return $this->updatedAt;
     }
 
+    /**
+     * Set publishedAt
+     *
+     * @param \DateTime $publishedAt
+     *
+     * @return Article
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedAt
+     *
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
 }
