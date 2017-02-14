@@ -10,7 +10,7 @@ class QueryManager
         return $query;
     }
 
-    public function paginatedResults($query, $page = 1, $limit = 20, $ordering = 'id', $direction = 'DESC') {
+    public function paginatedResults($query, $page = 1, $limit = 15, $ordering = 'id', $direction = 'DESC') {
         $firstResult = $page*$limit-$limit;
 
         $query->addOrderBy('p.'.$ordering, $direction);
