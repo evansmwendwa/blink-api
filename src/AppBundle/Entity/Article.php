@@ -80,6 +80,7 @@ class Article
     private $published;
 
     public function __construct() {
+        $this->published = true;
         $this->publishedAt =  new \DateTimeImmutable();
     }
 
