@@ -42,18 +42,6 @@ class Rbma
     private $tracks;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank()
-     */
-    private $releaseMonth;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank()
-     */
-    private $releaseYear;
-
-    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
@@ -68,6 +56,13 @@ class Rbma
      * @var string
      */
     private $imageName;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    private $releasedAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -89,6 +84,11 @@ class Rbma
      * @var bool
      */
     private $published;
+
+    public function __construct() {
+        $this->published = true;
+        $this->releasedAt =  new \DateTimeImmutable();
+    }
 
     /**
      * Get id
@@ -199,53 +199,6 @@ class Rbma
     }
 
     /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Article
-     */
-    public function setReleaseYear($year)
-    {
-        $this->releaseYear = $year;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getReleaseYear()
-    {
-        return $this->releaseYear;
-    }
-    /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Article
-     */
-    public function setReleaseMonth($releaseMonth)
-    {
-        $this->releaseMonth = $releaseMonth;
-
-        return $this;
-    }
-
-    /**
-     * Get content
-     *
-     * @return string
-     */
-    public function getReleaseMonth()
-    {
-        return $this->releaseMonth;
-    }
-
-    /**
      * Set url
      *
      * @param string $url
@@ -332,6 +285,30 @@ class Rbma
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set releasedAt
+     *
+     * @param \DateTime $releasedAt
+     *
+     * @return Rbma
+     */
+    public function setReleasedAt($releasedAt)
+    {
+        $this->releasedAt = $releasedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get releasedAt
+     *
+     * @return \DateTime
+     */
+    public function getReleasedAt()
+    {
+        return $this->releasedAt;
     }
 
 }
