@@ -3,6 +3,40 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
+class Pagination
+{
+    public $current_page;
+    public $total_pages;
+    public $total_results;
+    public $next_page;
+    public $previous_page;
+
+    public function __construct(
+        $current_page,
+        $total_pages,
+        $total_results,
+        $next_page,
+        $previous_page
+    ) {
+        $this->current_page = $current_page;
+        $this->total_pages = $total_pages;
+        $this->total_results = $total_results;
+        $this->next_page = $next_page;
+        $this->previous_page = $previous_page;
+    }
+}
+
+class PaginatedResult
+{
+    public $results;
+    public $pagination;
+
+    public function __construct($results, $pagination) {
+        $this->results = $results;
+        $this->pagination = $pagination;
+    }
+}
+
 class QueryManager
 {
     public function buildQuery($repository) {
@@ -10,7 +44,13 @@ class QueryManager
         return $query;
     }
 
-    public function paginatedResults($query, $page = 1, $limit = 15, $ordering = 'id', $direction = 'DESC') {
+    public function paginatedResults(
+        $query, $page = 1, $limit = 15,
+        $ordering = 'id', $direction = 'DESC'
+    ) {
+        $page = (int)$page;
+        $limit = (int)$limit;
+
         $firstResult = $page*$limit-$limit;
 
         $query->addOrderBy('p.'.$ordering, $direction);
@@ -27,15 +67,12 @@ class QueryManager
         $previous_page = ($page > 1)? $page - 1 : 0;
 
         // create the paginated object
-        $paginatedResult = new \stdClass();
-        $paginatedResult->results = $results;
+        $pagination = new Pagination(
+            $page, $total_pages, $total_results,
+            $next_page, $previous_page
+        );
 
-        $paginatedResult->pagination = new \stdClass();
-        $paginatedResult->pagination->current_page =$page;
-        $paginatedResult->pagination->total_pages =$total_pages;
-        $paginatedResult->pagination->total_results =$total_results;
-        $paginatedResult->pagination->next_page =$next_page;
-        $paginatedResult->pagination->previous_page =$previous_page;
+        $paginatedResult = new PaginatedResult($results, $pagination);
 
         return $paginatedResult;
     }
