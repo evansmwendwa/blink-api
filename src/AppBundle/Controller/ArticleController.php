@@ -37,14 +37,7 @@ class ArticleController extends Controller
             $article->setImageName($url.$article->getImageName());
         }
 
-        //// NOTE JMS Serializer does not serialize stdClass.
-        //// Thats why we are casting pagination to array below.
-        //// future update should be done to fix QueryManager to
-        //// stop usage of stdClass
-        return $this->get('app.serializer')->JsonResponse([
-            'results' => $data->results,
-            'pagination' => (array)$data->pagination
-        ]);
+        return $this->get('app.serializer')->JsonResponse($data);
     }
 
     /**
