@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,7 +17,7 @@ class GalleryController extends Controller
         $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
         $url .='/uploads/gallery/';
 
-        $dir = realpath(__DIR__ .'/../../../web/uploads/gallery');
+        $dir = realpath(__DIR__ .'/../../../../web/uploads/gallery');
 
         $finder = new Finder();
         $finder->files()->in($dir);
