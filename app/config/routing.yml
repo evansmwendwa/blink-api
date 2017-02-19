@@ -1,8 +1,8 @@
-app:
+site:
     resource: "@AppBundle/Controller"
     type:     annotation
 
-app:
+api:
     resource: "@AppBundle/Controller/Api"
     type:     annotation
     prefix:   /api
