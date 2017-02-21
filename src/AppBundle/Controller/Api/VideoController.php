@@ -15,8 +15,7 @@ class VideoController extends Controller
      */
     public function listAction(Request $request)
     {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $em = $this->getDoctrine()->getManager();
         $videos = $em->getRepository('AppBundle:Video')->findBy(
@@ -25,7 +24,7 @@ class VideoController extends Controller
         );
 
         foreach($videos as $video) {
-            $video->setImageName($url.$video->getImageName());
+            $video->setImagePath($baseUrl.'/'.$video->getImagePath());
         }
 
         return $this->get('app.serializer')->JsonResponse($videos);
@@ -36,8 +35,7 @@ class VideoController extends Controller
      */
     public function viewAction(Request $request, $id)
     {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $em = $this->getDoctrine()->getManager();
         $video = $em->getRepository('AppBundle:Video')->findOneBy(
@@ -50,7 +48,7 @@ class VideoController extends Controller
             );
         }
 
-        $video->setImageName($url.$video->getImageName());
+        $video->setImagePath($baseUrl.'/'.$video->getImagePath());
 
         $related = $this->getRelatedVideos($request, $video->getId());
 
@@ -61,8 +59,7 @@ class VideoController extends Controller
     }
 
     public function getRelatedVideos(Request $request, $id, $limit = 2) {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $em = $this->getDoctrine()->getManager();
         $videos = $em->getRepository('AppBundle:Video')->findBy(
@@ -80,7 +77,7 @@ class VideoController extends Controller
 
             if($video->getId() !== $id) {
                 $index++;
-                $video->setImageName($url.$video->getImageName());
+                $video->setImagePath($baseUrl.'/'.$video->getImagePath());
                 $related[] = $video;
             }
         }

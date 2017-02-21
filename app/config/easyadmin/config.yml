@@ -2,16 +2,17 @@ framework:
     translator: { fallbacks: [ "en" ] }
 
 parameters:
-    app.path.product_images: /images/products
+    app.path.upload_images: /images/uploads
 
 vich_uploader:
     db_driver: orm
 
     mappings:
         product_image:
-            uri_prefix: /images/products
-            upload_destination: '%kernel.root_dir%/../web/images/products'
+            uri_prefix: %app.path.upload_images%
+            upload_destination: '%kernel.root_dir%/../web%app.path.upload_images%'
             namer: vich_uploader.namer_uniqid
+            directory_namer: vich_uploader.custom_directory_namer
 
 easy_admin:
     site_name: 'Blinky Bill Music'

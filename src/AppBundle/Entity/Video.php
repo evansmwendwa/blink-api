@@ -58,6 +58,13 @@ class Video
     private $imageName;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $imagePath;
+
+    /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
@@ -273,6 +280,30 @@ class Video
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set imagePath
+     *
+     * @param string $imagePath
+     *
+     * @return Article
+     */
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    /**
+     * Get basePath
+     *
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->imagePath;
     }
 
 }

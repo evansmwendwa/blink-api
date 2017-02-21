@@ -15,8 +15,7 @@ class RbmaController extends Controller
      */
     public function listAction(Request $request)
     {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $em = $this->getDoctrine()->getManager();
         $episodes = $em->getRepository('AppBundle:Rbma')->findBy(
@@ -25,7 +24,7 @@ class RbmaController extends Controller
         );
 
         foreach($episodes as $episode) {
-            $episode->setImageName($url.$episode->getImageName());
+            $episode->setImagePath($baseUrl.'/'.$episode->getImagePath());
         }
 
         return $this->get('app.serializer')->JsonResponse($episodes);
@@ -36,8 +35,7 @@ class RbmaController extends Controller
      */
     public function viewAction(Request $request, $id)
     {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $em = $this->getDoctrine()->getManager();
         $episode = $em->getRepository('AppBundle:Rbma')->findOneBy(
@@ -50,7 +48,7 @@ class RbmaController extends Controller
             );
         }
 
-        $episode->setImageName($url.$episode->getImageName());
+        $episode->setImagePath($baseUrl.'/'.$episode->getImagePath());
 
         return $this->get('app.serializer')->JsonResponse($episode);
     }

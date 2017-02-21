@@ -58,6 +58,13 @@ class Rbma
     private $imageName;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $imagePath;
+
+    /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
@@ -309,6 +316,30 @@ class Rbma
     public function getReleasedAt()
     {
         return $this->releasedAt;
+    }
+
+    /**
+     * Set imagePath
+     *
+     * @param string $imagePath
+     *
+     * @return Article
+     */
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    /**
+     * Get basePath
+     *
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->imagePath;
     }
 
 }

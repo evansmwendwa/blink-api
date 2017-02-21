@@ -9,7 +9,7 @@ easy_admin:
                     - id
                     - title
                     - releaseYear
-                    - { property: 'imageName', type: 'image', base_path: %app.path.product_images% }
+                    - { property: 'imagePath', type: 'image', base_path: %app.path.upload_images% }
                     - published
                     - { property: 'updatedAt', format: 'j/n/Y' }
                     - { property: 'createdAt', format: 'j/n/Y' }

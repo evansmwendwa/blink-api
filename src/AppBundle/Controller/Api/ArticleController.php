@@ -14,8 +14,7 @@ class ArticleController extends Controller
      */
     public function listAction(Request $request, $page = 1)
     {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Article');
 
@@ -34,7 +33,7 @@ class ArticleController extends Controller
         $data = $qm->paginatedResults($query, $page);
 
         foreach($data->results as $article) {
-            $article->setImageName($url.$article->getImageName());
+            $article->setImagePath($baseUrl.'/'.$article->getImagePath());
         }
 
         return $this->get('app.serializer')->JsonResponse($data);
@@ -45,8 +44,7 @@ class ArticleController extends Controller
      */
     public function viewAction(Request $request, $id)
     {
-        $url = $baseurl = $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath();
-        $url .='/images/products/';
+        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Article');
 
@@ -71,12 +69,8 @@ class ArticleController extends Controller
             );
         }
 
-        $article->setImageName($url.$article->getImageName());
+        $article->setImagePath($baseUrl.'/'.$article->getImagePath());
 
-        //// NOTE JMS Serializer does not serialize stdClass.
-        //// Thats why we are casting pagination to array below.
-        //// future update should be done to fix QueryManager to
-        //// stop usage of stdClass
         return $this->get('app.serializer')->JsonResponse($article);
     }
 }

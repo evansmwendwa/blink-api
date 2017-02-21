@@ -52,6 +52,13 @@ class Article
     private $imageName;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    private $imagePath;
+
+    /**
      * @ORM\Column(type="datetime")
      *
      * @var \DateTime
@@ -279,5 +286,29 @@ class Article
     public function getPublishedAt()
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * Set imagePath
+     *
+     * @param string $imagePath
+     *
+     * @return Article
+     */
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    /**
+     * Get basePath
+     *
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->imagePath;
     }
 }
