@@ -14,7 +14,9 @@ class ArticleController extends Controller
      */
     public function listAction(Request $request, $page = 1)
     {
-        $baseUrl = $this->get('vich_uploader.custom_directory_namer')->getUploadsUrl();
+        $vich_uploader = $this->get('vich_uploader.custom_directory_namer');
+        $imager = $this->get('Imager');
+        $baseUrl = $vich_uploader->getUploadsUrl();
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Article');
 
@@ -33,7 +35,9 @@ class ArticleController extends Controller
         $data = $qm->paginatedResults($query, $page);
 
         foreach($data->results as $article) {
-            $article->setImagePath($baseUrl.'/'.$article->getImagePath());
+            $imagePath = $vich_uploader->getUploadPath().'/'.$article->getImagePath();
+            $image = $imager->filter($vich_uploader->getUploadDir().'/'.$article->getImagePath(),'news_thumb');
+            $article->setImagePath($image);
         }
 
         return $this->get('app.serializer')->JsonResponse($data);
