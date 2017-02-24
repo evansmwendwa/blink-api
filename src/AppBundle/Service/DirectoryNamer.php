@@ -36,4 +36,12 @@ class DirectoryNamer implements DirectoryNamerInterface
 
         return $url;
     }
+
+    public function getUploadPath() {
+        return realpath(__DIR__.'/../../../web'.$this->uploadPath);
+    }
+
+    public function getUploadDir() {
+        return $this->uploadPath;
+    }
 }
