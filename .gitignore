@@ -18,3 +18,4 @@
 .env
 *.php~
 /web/images/uploads/
+/web/media/
