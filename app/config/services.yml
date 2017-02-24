@@ -23,3 +23,7 @@ services:
     vich_uploader.custom_directory_namer:
         class: AppBundle\Service\DirectoryNamer
         arguments: ["@request_stack", %app.path.upload_images%]
+
+    Imager:
+        class:  AppBundle\Service\Imager
+        arguments: ["@request_stack", %imager_params%]
