@@ -75,6 +75,11 @@ class ArticleController extends Controller
 
         $article->setImagePath($baseUrl.'/'.$article->getImagePath());
 
+        // apply oEmbed filter;
+        $oEmbed = $this->get('oEmbed');
+        $content = $oEmbed->parse($article->getContent());
+        $article->setContent($content);
+
         return $this->get('app.serializer')->JsonResponse($article);
     }
 }
