@@ -76,7 +76,7 @@ class ArticleController extends Controller
         $article->setImagePath($baseUrl.'/'.$article->getImagePath());
 
         // apply oEmbed filter;
-        $oEmbed = $this->get('oEmbed');
+        $oEmbed = $this->get('open_embed');
         $content = $oEmbed->parse($article->getContent());
         $article->setContent($content);
 

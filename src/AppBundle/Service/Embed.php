@@ -15,7 +15,8 @@ namespace AppBundle\Service;
  *
  * @package AutoEmbed
  */
-class oEmbed {
+class Embed 
+{
     // List out some popular sites that support oEmbed.
     private $providers = array(
             '#https?://(www\.)?youtube.com/watch.*#i'            => array( 'http://www.youtube.com/oembed',                     true  ),

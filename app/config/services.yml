@@ -34,5 +34,5 @@ services:
         class:  AppBundle\Service\Imager
         arguments: ["@request_stack", %imager_params%]
 
-    oEmbed:
-        class:  AppBundle\Service\oEmbed
+    open_embed:
+        class:  AppBundle\Service\Embed
