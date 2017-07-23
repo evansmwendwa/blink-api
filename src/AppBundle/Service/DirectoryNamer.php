@@ -16,8 +16,14 @@ class DirectoryNamer implements DirectoryNamerInterface
     }
 
     public function directoryName($entity, PropertyMapping $mapping) {
+
         $date = new \DateTimeImmutable();
         $path = $date->format('Y/m');
+
+        $exisitingPath = dirname($entity->getImagePath());
+        if(!empty($exisitingPath) && $exisitingPath !== '.') {
+            $path = $exisitingPath;
+        }
 
         $relativePath = $path.'/'.$entity->getImageName();
         $entity->setImagePath($relativePath);
